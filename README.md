@@ -2,6 +2,13 @@
 
 Proof of concept static site generator from Elm files.
 
+setup
+
+```
+npm install
+elm-package install
+```
+
 To see an example, run
 
 ```bash
