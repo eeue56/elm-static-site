@@ -14,6 +14,9 @@ def build_up(dirname):
             if filename.endswith('/') or ('/.') in filename:
                 continue
 
+            if not has_view(filename):
+                continue
+
             names.append(filename)
 
     return [ name.replace(dirname + '/', '', 1) for name in names ]
@@ -96,13 +99,27 @@ node _main.js
     with open(runner_filename, 'w') as f:
         f.write(executor)
 
+    make_executable(runner_filename)
+
     execute_bash(runner_filename)
 
 def clean_up(name):
     return name[:name.rfind('.elm')].replace('/', '.')
 
+def has_view(filename):
+    with open(filename) as f:
+        for line in f:
+            if line.startswith('view ='):
+                return True
+    return False
+
 def execute_bash(filename):
     os.system(filename)
+
+def make_executable(path):
+    mode = os.stat(path).st_mode
+    mode |= (mode & 0o444) >> 2    # copy R bits to X
+    os.chmod(path, mode)
 
 def main():
     print('calling examples')

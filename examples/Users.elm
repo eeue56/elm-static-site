@@ -1,10 +1,5 @@
 module Users where
 
-import Html exposing (text)
-
-view = text ""
-
-
 type alias User =
     { name: String
     , location: String
