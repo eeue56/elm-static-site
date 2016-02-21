@@ -36,10 +36,14 @@ def generate_import(module_name):
 def port_name(module_name):
     return module_name.replace('.', '').lower()
 
-def file_name(module_name, basedir=None):
+def file_name(module_name, basedir=None, with_lower=True):
     if basedir is None:
         basedir = './'
-    return basedir + module_name.replace('.', '/')
+    with_basedir = basedir + module_name.replace('.', '/')
+
+    if with_lower:
+        return with_basedir.lower()
+    return with_basedir
 
 def make_folders(file_names):
     for file_name in file_names:
