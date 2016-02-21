@@ -65,6 +65,9 @@ def generate_vdom(module_names, basedir=None):
 
     make_folders(port_files.values())
 
+    renderer_filename = '_Renderer.elm'
+    runner_filename = './runner.sh'
+
     template = """
 module Renderer where
 import Html exposing (Html)
@@ -78,23 +81,28 @@ render = Native.Renderer.toHtml
 {ports}
 """.format(imports=imports, ports=ports)
 
-    with open('Renderer.elm', 'w') as f:
+    with open(renderer_filename, 'w') as f:
         f.write(template)
 
     executor = """
-elm make Renderer.elm --output=_main.js
+elm make {renderer} --output=_main.js
 echo "var fs = require('fs');" >> _main.js
 echo "var elm = Elm.worker(Elm.Renderer);" >> _main.js
 {mappings}
 node _main.js
 
-""".format(mappings=mappings)
+""".format(mappings=mappings, renderer=renderer_filename)
 
-    with open('runner.sh', 'w') as f:
+    with open(runner_filename, 'w') as f:
         f.write(executor)
+
+    execute_bash(runner_filename)
 
 def clean_up(name):
     return name[:name.rfind('.elm')].replace('/', '.')
+
+def execute_bash(filename):
+    os.system(filename)
 
 def main():
     print('calling examples')
