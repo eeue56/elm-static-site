@@ -24,7 +24,7 @@ def generate_port(module_name):
 port {port_name} : String
 port {port_name} =
     {module_name}.view
-        |> Native.Renderer.toHtml
+        |> render
 """.format(port_name=port_name(module_name), module_name=module_name)
 
 def generate_import(module_name):
@@ -67,8 +67,13 @@ def generate_vdom(module_names, basedir=None):
 
     template = """
 module Renderer where
+import Html exposing (Html)
 import Native.Renderer
+
 {imports}
+
+render : Html -> String
+render = Native.Renderer.toHtml
 
 {ports}
 """.format(imports=imports, ports=ports)
