@@ -24,6 +24,3 @@ users =
     [ noah
     , dave
     ]
-
-view : String
-view = "hello"
