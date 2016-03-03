@@ -12,3 +12,18 @@ noah =
     , location = "N/A"
     , age = 23
     }
+
+dave : User
+dave =
+    { name = "Dave"
+    , location = "Scotland"
+    , age = 33
+    }
+
+users =
+    [ noah
+    , dave
+    ]
+
+view : String
+view = "hello"

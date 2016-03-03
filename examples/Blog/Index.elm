@@ -1,6 +1,6 @@
 module Blog.Index where
 
-import Users exposing (User, noah)
+import Users exposing (User, users)
 import Html exposing (..)
 import String
 
@@ -11,7 +11,7 @@ viewBloggerInfo user =
         words =
             String.join ""
                 [ user.name
-                , " is currently at "
+                , " is currently in "
                 , user.location
                 , " and is "
                 , toString user.age
@@ -25,4 +25,4 @@ viewBloggerInfo user =
 view =
     div
         []
-        [ viewBloggerInfo noah ]
+        (List.map viewBloggerInfo users)
