@@ -150,8 +150,7 @@ function cleanUp(name) {
 
 function executeBash(filename) {
     fs.chmod(filename, 0755);
-
-    var results = spawn(filename, { stdio: 'inherit' });
+    var results = spawn('sh', [filename], { stdio: 'inherit' });
 
 }
 
