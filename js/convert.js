@@ -11,12 +11,11 @@ function listFiles(path) {
     var files = files.filter(function(file){
       return getFilename(file).split('.')[1] === 'elm';
     }).filter(hasView).map(function(file) {
-        return file.replace(path,'');
+        return file.replace(path, '');
     });
-
-    return files
+    
+    return files;
 }
-
 
 function generatePort(module_name) {
     var port_name = portName(module_name);
@@ -44,7 +43,8 @@ function fileName(module_name, basedir, with_lower) {
 
     if (with_lower) {
         return with_basedir.toLowerCase();
-    } return with_basedir;
+    } 
+    return with_basedir;
 }
 
 function generateMapping(port, file) {
@@ -67,11 +67,11 @@ function generate_vdom(module_names, basedir) {
 
     var port_file_values = port_files.map(function(curr) {
         return curr.filename;
-    })
+    });
 
     var maps = port_files.map(function(curr) {
         return generateMapping(curr.port, curr.filename);
-    })
+    });
 
     var mappings = maps.join('\n');
 
@@ -103,14 +103,10 @@ ${mappings}
 node _main.js`;
 
     fs.writeFile(runner_filename, executor);
-
-    // executeBash(runner_filename);
-
 }
 
 function makeFolders(filenames) {
 
-    //for (var i = 0; i < filenames.length; i++) {
     filenames.forEach(function(filename) {
         if (filename.split('/').length > 1 || filename.startsWith('.') != -1) {
             var dir = filename.substring(0, filename.lastIndexOf('/'));
@@ -119,7 +115,7 @@ function makeFolders(filenames) {
             } catch (err) {
                 console.log(err);
             }
-    }
+        }
     });
 }
 
@@ -141,14 +137,12 @@ function hasView(filename) {
             return true;
         }
     } 
-
     return false;
-
 }
 
 function cleanUp(name) {
     var new_name = name.replace(__dirname, '');
-    return new_name.split('.')[0].replace('/','.');
+    return new_name.split('.')[0].replace('/', '.');
 }
 
 function executeBash(filename) {
