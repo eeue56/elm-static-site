@@ -37,12 +37,12 @@ function portName(module_name) {
 
 function fileName(module_name, basedir, with_lower) {
 
-    if (basedir == null) {
+    if (basedir === null) {
         basedir = './';
     } 
     var with_basedir = basedir + module_name.replace('.','/');
 
-    if (with_lower == true) {
+    if (with_lower) {
         return with_basedir.toLowerCase();
     } return with_basedir;
 }
@@ -53,7 +53,7 @@ function generateMapping(port, file) {
 
 function generate_vdom(module_names, basedir) {
 
-    var port_files = []
+    var port_files = [];
 
     for (var i = 0; i < module_names.length; i++) {
         port_files.push({
@@ -66,7 +66,7 @@ function generate_vdom(module_names, basedir) {
     var imports = module_names.map(generateImport).join('\n');
     var maps = [];
 
-    var port_file_values = []
+    var port_file_values = [];
     
     for (var i = port_files.length-1; i >= 0; i--) {
 
@@ -120,7 +120,6 @@ function makeFolders(filenames) {
     for (var i = 0; i < filenames.length; i++) {
         if (filenames[i].split('/').length > 1 || filenames[i].startsWith('.') != -1) {
             var dir = filenames[i].substring(0, filenames[i].lastIndexOf('/'));
-            console.log('dir', dir)
             try {
                 fs.mkdir(dir);
             } catch (err) {
@@ -136,7 +135,7 @@ function isFile(path) {
 
 function getFilename(path) {
     var parts = path.split('/');
-    return parts[parts.length-1];
+    return parts[parts.length - 1];
 }
 
 function hasView(filename) {
@@ -147,13 +146,14 @@ function hasView(filename) {
         if (line.indexOf('view =') != -1) {
             return true;
         }
-    } return false;
+    } 
+
+    return false;
 
 }
 
 function cleanUp(name) {
     var new_name = name.replace(__dirname, '');
-    console.log('cleanup', __dirname)
     return new_name.split('.')[0].replace('/','.');
 }
 
@@ -167,8 +167,6 @@ function executeBash(filename) {
 }
 
 function main() {
-
-    console.log(listFiles('examples/'));
 
     var files = listFiles('examples/').map(cleanUp);
 
