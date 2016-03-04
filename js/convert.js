@@ -15,8 +15,22 @@ function listFiles(path) {
             }
         }
     }   
-    return filelist;
+    console.log('for', filelist);
+
+    var files = files.filter(function(file){
+      return getFilename(file).split('.')[1] === 'elm';
+    }).filter(hasView).map(function(file) {
+        return file.replace(path,'');
+    });
+
+    // files.forEach(function(filename) {
+    //     filename.replace(path, '');
+    // })
+
+    console.log('for2', files);
+    return files
 }
+
 
 function generatePort(module_name) {
     var port_name = portName(module_name);
@@ -55,7 +69,7 @@ function generate_vdom(module_names, basedir) {
 
     var port_files = [];
 
-    for (var i = 0; i < module_names.length; i++) {
+    for (var i = module_names.length - 1; i >= 0; i--) {
         port_files.push({
             'port' : portName(module_names[i]),
             'filename' : fileName(module_names[i], basedir, false)
@@ -64,19 +78,27 @@ function generate_vdom(module_names, basedir) {
 
     var ports = module_names.map(generatePort).join('\n');
     var imports = module_names.map(generateImport).join('\n');
-    var maps = [];
+    // var maps = [];
 
-    var port_file_values = [];
+     // var port_file_values = [];
     
-    for (var i = port_files.length-1; i >= 0; i--) {
+    // for (var i = port_files.length-1; i >= 0; i--) {
 
-        var curr = port_files[i];
+    //     var curr = port_files[i];
 
-        maps.push(generateMapping(curr.port, curr.filename));
+    //     maps.push(generateMapping(curr.port, curr.filename));
 
-        port_file_values.push(curr.filename)
+    //      // port_file_values.push(curr.filename)
 
-    }
+    // }
+
+    var port_file_values = port_files.map(function(curr) {
+        return curr.filename;
+    })
+
+    var maps = port_files.map(function(curr) {
+        return generateMapping(curr.port, curr.filename);
+    })
 
     var mappings = maps.join('\n');
 
@@ -114,8 +136,6 @@ node _main.js`;
 }
 
 function makeFolders(filenames) {
-
-    console.log(filenames);
 
     //for (var i = 0; i < filenames.length; i++) {
     filenames.forEach(function(filename) {
@@ -168,7 +188,6 @@ function executeBash(filename) {
 }
 
 function main() {
-
     var files = listFiles('examples/').map(cleanUp);
 
     generate_vdom(files, 'output/');
