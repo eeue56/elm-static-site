@@ -2,7 +2,7 @@ var fs = require('fs');
 var glob = require('glob');
 var linebyline = require('n-readlines');
 var cmd = require('node-cmd');
-var exec = require('child_process').exec;
+var spawn = require('cross-spawn')
 
 function listFiles(path) {
     var filelist = [];
@@ -13,7 +13,7 @@ function listFiles(path) {
     }).filter(hasView).map(function(file) {
         return file.replace(path, '');
     });
-    
+
     return files;
 }
 
@@ -96,6 +96,7 @@ ${ports}`;
     fs.writeFile(renderer_filename, template);
 
     var executor = `
+#!/bin/sh
 elm make ${renderer_filename} --output=_main.js
 echo "var fs = require('fs');" >> _main.js
 echo "var elm = Elm.worker(Elm.Renderer);" >> _main.js
@@ -103,6 +104,8 @@ ${mappings}
 node _main.js`;
 
     fs.writeFile(runner_filename, executor);
+
+    executeBash(runner_filename);
 }
 
 function makeFolders(filenames) {
@@ -147,11 +150,9 @@ function cleanUp(name) {
 
 function executeBash(filename) {
     fs.chmod(filename, 0755);
-    exec(filename, (error, stdout, stderr) => {
-        if (error !== null) {
-            console.log(`exec error: ${error}`);
-        }
-    });
+
+    var results = spawn(filename, { stdio: 'inherit' });
+
 }
 
 function main() {
