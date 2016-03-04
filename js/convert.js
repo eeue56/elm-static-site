@@ -2,7 +2,7 @@ var fs = require('fs');
 var glob = require('glob');
 var linebyline = require('n-readlines');
 var cmd = require('node-cmd');
-var spawn = require('cross-spawn')
+var spawn = require('cross-spawn');
 
 function listFiles(path) {
     var filelist = [];
@@ -23,11 +23,11 @@ function generatePort(module_name) {
 port ${port_name} : String 
 port ${port_name} =
     ${module_name}.view 
-        |> render`
+        |> render`;
 }
 
 function generateImport(module_name) {
-    return `import ${module_name}`
+    return `import ${module_name}`;
 }
 
 function portName(module_name) {
@@ -48,7 +48,7 @@ function fileName(module_name, basedir, with_lower) {
 }
 
 function generateMapping(port, file) {
-    return `echo "fs.writeFile('${file}.html', elm.ports['${port}']);" >> _main.js`
+    return `echo "fs.writeFile('${file}.html', elm.ports['${port}']);" >> _main.js`;
 }
 
 function generate_vdom(module_names, basedir) {
@@ -117,7 +117,7 @@ function makeFolders(filenames) {
             try {
                 fs.mkdir(dir);
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
         }
     });
@@ -161,4 +161,4 @@ function main() {
     generate_vdom(files, 'output/');
 }
 
-main()
+main();
