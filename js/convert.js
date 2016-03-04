@@ -8,26 +8,12 @@ function listFiles(path) {
     var filelist = [];
     var files =  glob.sync(path + '**').filter(isFile);
 
-    for (var i = 0; i < files.length; i++) {
-        if (getFilename(files[i]).split('.')[1] == 'elm') {
-            if (hasView(files[i]) == true) { 
-                filelist.push(files[i].replace(path,''));
-            }
-        }
-    }   
-    console.log('for', filelist);
-
     var files = files.filter(function(file){
       return getFilename(file).split('.')[1] === 'elm';
     }).filter(hasView).map(function(file) {
         return file.replace(path,'');
     });
 
-    // files.forEach(function(filename) {
-    //     filename.replace(path, '');
-    // })
-
-    console.log('for2', files);
     return files
 }
 
@@ -78,19 +64,6 @@ function generate_vdom(module_names, basedir) {
 
     var ports = module_names.map(generatePort).join('\n');
     var imports = module_names.map(generateImport).join('\n');
-    // var maps = [];
-
-     // var port_file_values = [];
-    
-    // for (var i = port_files.length-1; i >= 0; i--) {
-
-    //     var curr = port_files[i];
-
-    //     maps.push(generateMapping(curr.port, curr.filename));
-
-    //      // port_file_values.push(curr.filename)
-
-    // }
 
     var port_file_values = port_files.map(function(curr) {
         return curr.filename;
