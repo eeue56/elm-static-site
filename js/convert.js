@@ -117,16 +117,17 @@ function makeFolders(filenames) {
 
     console.log(filenames);
 
-    for (var i = 0; i < filenames.length; i++) {
-        if (filenames[i].split('/').length > 1 || filenames[i].startsWith('.') != -1) {
-            var dir = filenames[i].substring(0, filenames[i].lastIndexOf('/'));
+    //for (var i = 0; i < filenames.length; i++) {
+    filenames.forEach(function(filename) {
+        if (filename.split('/').length > 1 || filename.startsWith('.') != -1) {
+            var dir = filename.substring(0, filename.lastIndexOf('/'));
             try {
                 fs.mkdir(dir);
             } catch (err) {
                 console.log(err);
             }
     }
-}
+    });
 }
 
 function isFile(path) {
