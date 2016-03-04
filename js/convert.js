@@ -4,17 +4,14 @@ var linebyline = require('n-readlines');
 var cmd = require('node-cmd');
 var exec = require('child_process').exec;
 
-
-var path = '/Users/psuc44/dev/shaun/examples/';
-
-function listFiles() {
+function listFiles(path) {
     var filelist = [];
     var files =  glob.sync(path + '**').filter(isFile);
 
     for (var i = 0; i < files.length; i++) {
         if (getFilename(files[i]).split('.')[1] == 'elm') {
             if (hasView(files[i]) == true) { 
-                filelist.push(files[i]);
+                filelist.push(files[i].replace(path,''));
             }
         }
     }   
@@ -112,17 +109,18 @@ node _main.js`;
 
     fs.writeFile(runner_filename, executor);
 
-    // makeExecutable(runner_filename);
-
-    executeBash(runner_filename);
+    // executeBash(runner_filename);
 
 }
 
 function makeFolders(filenames) {
 
+    console.log(filenames);
+
     for (var i = 0; i < filenames.length; i++) {
         if (filenames[i].split('/').length > 1 || filenames[i].startsWith('.') != -1) {
             var dir = filenames[i].substring(0, filenames[i].lastIndexOf('/'));
+            console.log('dir', dir)
             try {
                 fs.mkdir(dir);
             } catch (err) {
@@ -154,7 +152,8 @@ function hasView(filename) {
 }
 
 function cleanUp(name) {
-    var new_name = name.replace(path, '')
+    var new_name = name.replace(__dirname, '');
+    console.log('cleanup', __dirname)
     return new_name.split('.')[0].replace('/','.');
 }
 
@@ -169,7 +168,9 @@ function executeBash(filename) {
 
 function main() {
 
-    var files = listFiles().map(cleanUp);
+    console.log(listFiles('examples/'));
+
+    var files = listFiles('examples/').map(cleanUp);
 
     generate_vdom(files, 'output/');
 }
