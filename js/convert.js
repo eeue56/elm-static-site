@@ -97,13 +97,14 @@ ${ports}`;
 
     var executor = `
 #!/bin/sh
+elm-package install --yes
 elm make ${renderer_filename} --output=_main.js
 echo "var fs = require('fs');" >> _main.js
 echo "var elm = Elm.worker(Elm.Renderer);" >> _main.js
 ${mappings}
 node _main.js`;
 
-    fs.writeFile(runner_filename, executor);
+    fs.writeFileSync(runner_filename, executor);
 
     executeBash(runner_filename);
 }
