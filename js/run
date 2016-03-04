@@ -1,3 +1,4 @@
-node cleanStatic.js
+node convert.js
+chmod +x ./runner.sh
 ./runner.sh
 
