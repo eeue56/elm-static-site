@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/eeue56/elm-static-site#readme",
   "dependencies": {
+    "cross-spawn": "^2.1.5",
+    "glob": "^7.0.3",
+    "n-readlines": "^0.2.2",
+    "node-cmd": "^1.1.1",
     "vdom-to-html": "^2.2.0",
     "virtual-dom": "^2.1.1"
   }
