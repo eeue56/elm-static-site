@@ -9,7 +9,7 @@ type alias User =
 noah : User
 noah =
     { name = "Noah"
-    , location = "N/A"
+    , location = "Wales"
     , age = 23
     }
 
