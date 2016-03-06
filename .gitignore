@@ -1,7 +1,10 @@
 # elm-package generated files
 elm-stuff/
+
 # elm-repl generated files
 repl-temp-*
 _main.js
 node_modules
 runner.sh
+_Renderer.elm
+output/
